@@ -21,10 +21,18 @@ class ProductController extends Controller
      */
     public function getAll(Request $request)
     {
-        // $p = Product::with(['attributes'])->first();
-        // dd($p->attributes[0]->pivot->values->toArray());
+
         try {
-            $data = Product::filter()->get();
+            $data = Product::filter()
+            // order
+            ->when($request->item && $request->type, function($query) use ($request) {
+                $query->with(['AttributeProducts' =>  function($q) use ($request) {
+                    $q->with(['attributeProductValues' => function($q) use ($request) {
+                           $q->orderBy($request->item, $request->type);
+                        }]);
+                    }])->get();
+                })
+            ->get(); 
 
             return $this->successResponse([
                 'products' => ProductResource::collection($data),

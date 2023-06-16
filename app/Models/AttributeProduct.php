@@ -15,8 +15,6 @@ class AttributeProduct extends Model
 
     public function attributeProductValues(): HasMany
     {
-        // dd('here');
-        // return AttributeProductValue::find(1);
         return $this->hasMany(AttributeProductValue::class);
     }
 }

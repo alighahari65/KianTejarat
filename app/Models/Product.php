@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -27,14 +28,22 @@ class Product extends Model
         return $this->belongsToMany(Attribute::class);
     }
 
+    public function AttributeProducts(): HasMany
+    {
+        return $this->hasMany(AttributeProduct::class, 'product_id');
+    }
+
     public function scopeFilter(Builder $query, $filter = [])
     {
         
         $filter = $filter ?: request()->all();
-        
         $filter = collect($filter);
+        // dd($filter);
         
         $query->filterStrColumn($filter, 'title');
+
+
+
         return $query;
     }
 

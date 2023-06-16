@@ -17,7 +17,6 @@ class AttributeSeeder extends Seeder
         $attrs = [
             ['title' => 'سایز'],
             ['title' => 'رنگ'],
-
         ];
 
         foreach ($attrs as $key => $attr) {
